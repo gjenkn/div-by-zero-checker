@@ -11,6 +11,6 @@ import org.checkerframework.framework.qual.DefaultQualifierInHierarchy;
  */
 
 @DefaultQualifierInHierarchy
-@SubtypeOf()
+@SubtypeOf({})
 @Target({ElementType.TYPE_USE, ElementType.TYPE_PARAMETER})
 public @interface PossiblyZero { }

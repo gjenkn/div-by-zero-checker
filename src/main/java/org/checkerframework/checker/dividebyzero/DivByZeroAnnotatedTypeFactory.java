@@ -41,7 +41,7 @@ public class DivByZeroAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
 		return NonZero.class;
 	}
     }
-    return Top.class;
+    return PossiblyZero.class;
   }
 
   // ========================================================================
