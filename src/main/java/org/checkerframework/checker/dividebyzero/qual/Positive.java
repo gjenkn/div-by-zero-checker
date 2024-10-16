@@ -4,6 +4,6 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Target;
 import org.checkerframework.framework.qual.SubtypeOf;
 
-@SubtypeOf({PossiblyZero.class})
+@SubtypeOf({NonZero.class})
 @Target({ElementType.TYPE_USE, ElementType.TYPE_PARAMETER})
-public @interface NonZero { }
+public @interface Positive { }

@@ -76,7 +76,50 @@ public class DivByZeroTransfer extends CFTransfer {
    */
   private AnnotationMirror refineLhsOfComparison(
       Comparison operator, AnnotationMirror lhs, AnnotationMirror rhs) {
-    // TODO
+    AnnotationMirror Positive = reflect(Positive.class);
+    AnnotationMirror Negative = reflect(Negative.class);
+    AnnotationMirror Zero = reflect(Zero.class);
+    AnnotationMirror NonZero = reflect(NonZero.class);
+    // !=
+    if(operator == Comparison.NE) {
+	if(equal(rhs, Zero)) {
+		return NonZero;
+	}
+    }
+
+    // ==
+    if(operator == Comparison.EQ) {
+	return rhs;
+    }
+
+    // <
+    if(operator == Comparison.LT) {
+	if(equal(rhs, Zero)) {
+		return Negative;
+	}
+    }
+
+    // >
+    if(operator == Comparison.GT) {
+	if(equal(rhs, Zero)) {
+		return Positive;
+	}
+    }
+
+    // >=
+    if(operator == Comparison.GE) {
+	if(equal(rhs, Positive)) {
+		return Positive;
+	}
+    }
+
+    // <=
+    if(operator == Comparison.LE) {
+	if(equal(rhs, Negative)) {
+		return Negative;
+	}
+    }
+
     return lhs;
   }
 
@@ -97,7 +140,67 @@ public class DivByZeroTransfer extends CFTransfer {
    */
   private AnnotationMirror arithmeticTransfer(
       BinaryOperator operator, AnnotationMirror lhs, AnnotationMirror rhs) {
-    // TODO
+    AnnotationMirror Positive = reflect(Positive.class);
+    AnnotationMirror Negative = reflect(Negative.class);
+    AnnotationMirror Zero = reflect(Zero.class);
+
+    // addition
+    if(operator == BinaryOperator.PLUS) {
+	if(equal(lhs, top()) || equal(rhs, top())) {
+		return top();
+	} else if (equal(lhs, Zero) && equal(rhs, Zero)) {
+		return Zero;
+	} else if ((equal(lhs, Positive) || equal(lhs, Zero)) && (equal(rhs, Positive) || equal(rhs, Zero))) {
+		return Positive;
+	} else if ((equal(lhs, Negative) || equal(lhs, Zero)) && (equal(rhs, Negative) || equal(rhs, Zero))) {
+		return Negative;
+ 	}
+	return top();
+    }
+
+    // subtraction
+    if(operator == BinaryOperator.MINUS) {
+	if(equal(lhs, top()) || equal(rhs, top())) {
+		return top();
+	} else if (equal(lhs, Zero) && equal(rhs, Zero)) {
+		return Zero;
+	} else if ((equal(lhs, Positive) || equal(lhs, Zero)) && (equal(rhs, Negative) || equal(rhs, Zero))) {
+		return Positive;
+	} else if ((equal(lhs, Negative) || equal(lhs, Zero)) && (equal(rhs, Positive) || equal(rhs, Zero))) {
+		return Negative;
+	}
+	return top();
+    }
+
+    // multiplication
+    if(operator == BinaryOperator.TIMES) {
+	if(equal(lhs, Zero) || equal(rhs, Zero)) {
+		return Zero;
+	} else if (equal(lhs, top()) || equal(rhs, top())) {
+		return top();
+	} else if ((equal(lhs, Positive) && equal(rhs, Positive)) || (equal(lhs, Negative) && equal(rhs, Negative))) {
+		return Positive;
+	} else if ((equal(lhs, Negative) && equal(rhs, Positive)) || (equal(lhs, Positive) && equal(rhs, Negative))) {
+		return Negative;
+	}
+	return top();
+   }
+
+    // division
+    if(operator == BinaryOperator.DIVIDE) {
+	if(equal(rhs, Zero)) {
+		return bottom();
+	} else if (equal(lhs, Zero)) {
+		return Zero;
+	} else if ((equal(lhs, Positive) && equal(rhs, Positive)) || (equal(lhs, Negative) && equal(rhs, Negative))) {
+		return Positive;
+	} else if ((equal(lhs, Negative) && equal(rhs, Positive)) || (equal(lhs, Positive) && equal(rhs, Negative))) {
+		return Negative;
+	}
+	return top();
+    }
+
+
     return top();
   }
 

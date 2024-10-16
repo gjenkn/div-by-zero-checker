@@ -6,4 +6,4 @@ import org.checkerframework.framework.qual.SubtypeOf;
 
 @SubtypeOf({PossiblyZero.class})
 @Target({ElementType.TYPE_USE, ElementType.TYPE_PARAMETER})
-public @interface NonZero { }
+public @interface Zero { }
