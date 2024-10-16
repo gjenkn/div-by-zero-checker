@@ -94,14 +94,14 @@ public class DivByZeroTransfer extends CFTransfer {
 
     // <
     if(operator == Comparison.LT) {
-	if(equal(rhs, Zero)) {
+	if(equal(rhs, Zero) || equal(rhs,Negative)) {
 		return Negative;
 	}
     }
 
     // >
     if(operator == Comparison.GT) {
-	if(equal(rhs, Zero)) {
+	if(equal(rhs, Zero) || equal(rhs,Positive)) {
 		return Positive;
 	}
     }
@@ -123,7 +123,7 @@ public class DivByZeroTransfer extends CFTransfer {
     return lhs;
   }
 
-  /**
+     /**
    * For an arithmetic expression (lhs `op` rhs), compute the point in the lattice for the result of
    * evaluating the expression. ("Top" is always a legal return value, but not a very useful one.)
    *
@@ -140,6 +140,7 @@ public class DivByZeroTransfer extends CFTransfer {
    */
   private AnnotationMirror arithmeticTransfer(
       BinaryOperator operator, AnnotationMirror lhs, AnnotationMirror rhs) {
+
     AnnotationMirror Positive = reflect(Positive.class);
     AnnotationMirror Negative = reflect(Negative.class);
     AnnotationMirror Zero = reflect(Zero.class);
@@ -200,7 +201,7 @@ public class DivByZeroTransfer extends CFTransfer {
 	return top();
     }
 
-
+    
     return top();
   }
 

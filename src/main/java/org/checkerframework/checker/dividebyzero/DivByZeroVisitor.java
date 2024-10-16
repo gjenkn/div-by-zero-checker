@@ -32,7 +32,6 @@ public class DivByZeroVisitor extends BaseTypeVisitor<DivByZeroAnnotatedTypeFact
 	ExpressionTree rhs = node.getRightOperand();
 
 	if(hasAnnotation(rhs, PossiblyZero.class) || hasAnnotation(rhs, Zero.class)) {
-		checker.reportError(node, "might be dividing by zero");
 		return true;
 	}
     }
@@ -52,7 +51,6 @@ public class DivByZeroVisitor extends BaseTypeVisitor<DivByZeroAnnotatedTypeFact
     if (DIVISION_OPERATORS.contains(node.getKind())) {
         ExpressionTree rhs = node.getExpression();
         if (hasAnnotation(rhs, PossiblyZero.class) || hasAnnotation(rhs, Zero.class)) {
-            checker.reportError(node, "might be dividing by zero");
 		return true;
 	}
     }
