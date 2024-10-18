@@ -32,7 +32,7 @@ public class DivByZeroAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
 		return Zero.class;
 	} else if(intValue < 0) {
 		return Negative.class;
-	} else if(intValue >0) {
+	} else if(intValue > 0) {
 		return Positive.class;
 	} else if (intValue != 0) { 
 		return NonZero.class;

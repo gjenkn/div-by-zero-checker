@@ -144,18 +144,21 @@ public class DivByZeroTransfer extends CFTransfer {
     AnnotationMirror Positive = reflect(Positive.class);
     AnnotationMirror Negative = reflect(Negative.class);
     AnnotationMirror Zero = reflect(Zero.class);
+    AnnotationMirror NonZero = reflect(NonZero.class);
 
     // addition
     if(operator == BinaryOperator.PLUS) {
 	if(equal(lhs, top()) || equal(rhs, top())) {
 		return top();
-	} else if (equal(lhs, Zero) && equal(rhs, Zero)) {
-		return Zero;
-	} else if ((equal(lhs, Positive) || equal(lhs, Zero)) && (equal(rhs, Positive) || equal(rhs, Zero))) {
+	} else if (equal(rhs, Zero)) {
+		return lhs;
+	} else if (equal(lhs, Zero)) {
+		return rhs;
+	} else if (equal(lhs, Positive) && equal(rhs, Positive)) {
 		return Positive;
-	} else if ((equal(lhs, Negative) || equal(lhs, Zero)) && (equal(rhs, Negative) || equal(rhs, Zero))) {
+	} else if (equal(lhs, Negative) && equal(rhs, Negative)) {
 		return Negative;
- 	}
+	}
 	return top();
     }
 
@@ -163,11 +166,11 @@ public class DivByZeroTransfer extends CFTransfer {
     if(operator == BinaryOperator.MINUS) {
 	if(equal(lhs, top()) || equal(rhs, top())) {
 		return top();
-	} else if (equal(lhs, Zero) && equal(rhs, Zero)) {
-		return Zero;
-	} else if ((equal(lhs, Positive) || equal(lhs, Zero)) && (equal(rhs, Negative) || equal(rhs, Zero))) {
+	} else if (equal(rhs, Zero)) {
+		return lhs;
+	} else if (equal(lhs, Positive) && equal (rhs, Negative)) {
 		return Positive;
-	} else if ((equal(lhs, Negative) || equal(lhs, Zero)) && (equal(rhs, Positive) || equal(rhs, Zero))) {
+	} else if (equal(lhs, Negative) && equal (rhs, Positive)) {
 		return Negative;
 	}
 	return top();
@@ -183,6 +186,8 @@ public class DivByZeroTransfer extends CFTransfer {
 		return Positive;
 	} else if ((equal(lhs, Negative) && equal(rhs, Positive)) || (equal(lhs, Positive) && equal(rhs, Negative))) {
 		return Negative;
+	} else if (!equal(lhs, Zero) && !equal(rhs, Zero)) {
+		return NonZero;
 	}
 	return top();
    }
@@ -197,11 +202,12 @@ public class DivByZeroTransfer extends CFTransfer {
 		return Positive;
 	} else if ((equal(lhs, Negative) && equal(rhs, Positive)) || (equal(lhs, Positive) && equal(rhs, Negative))) {
 		return Negative;
+	} else if (!equal(lhs, Zero) && !equal(rhs, Zero)) {
+		return NonZero;
 	}
 	return top();
     }
 
-    
     return top();
   }
 
