@@ -54,12 +54,14 @@ the Divide By Zero Checker, with an explanation of each one:
 @Negative - indicates the value is negative
 @Zero - indicates the value is zero
 
+```
 Lattice:
        PossiblyZero
         /        \
     NonZero     Zero
     /    \
 Positive Negative
+```
 
 ## How to build the checker
 
