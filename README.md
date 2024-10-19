@@ -1,15 +1,3 @@
-# This repository
-
-This repository contains a template for an abstract interpretation implementation
-assignment. You can find the full instructions for the assignment in `INSTRUCTIONS.md`
-in this directory, or on your course webpage.
-
-The remainder of this README is the user-facing documentation for the analysis
-you will build.
-
-You should remove, from your version, everything above and including this line.
-
-
 # The Divide By Zero Checker
 
 A common problem when programming is division by zero.
@@ -60,8 +48,18 @@ on types, to indicate more precisely what values the type represents.
 Here is a list of the type qualifiers that are supported by
 the Divide By Zero Checker, with an explanation of each one:
 
-TODO.
+@PossiblyZero (aka top) - indicates the value is possibly zero
+@NonZero - indicates the value is non zero
+@Positive - indicates the value is positive
+@Negative - indicates the value is negative
+@Zero - indicates the value is zero
 
+Lattice:
+       PossiblyZero
+        /        \
+    NonZero     Zero
+    /    \
+Positive Negative
 
 ## How to build the checker
 
